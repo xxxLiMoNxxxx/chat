@@ -40,6 +40,7 @@ p {
 }
 .right-tree {
     right: -530px; /* Отступ справа для правого дерева */
+    transform: scaleX(-1);
 }
 footer {
     text-align: center;
