@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #1e1e1e;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .container {
+            max-width: 800px;
+            max-height: 350px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e1e1e;
+        }
+        a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .pumpkin2 {
+            width: 250px;
+          margin-top: -140px;
+        }
+        .pumpkin1 {
+            width: 250px;
+           margin-right: 400px;
+           margin-top: -140px;
+        }
+        .pumpkin {
+    display: flex; /* Включаем flexbox */
+    justify-content: center; /* Центрируем содержимое */
+    align-items: center; /* Выравнивание по вертикали */
+}
+.menu-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            background-color: #444;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        .menu-item {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        .menu-item:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>О нас</h1>
+    </header>
+    <button class="menu-button" id="menu-button">
+        <img src="images/eye-show-svgrepo-com.svg" alt="Меню" style="width: 100%; height: 100%; border-radius: 50%;">
+    </button>
+    <div class="menu" id="menu">
+        <a href="glav.html" class="menu-item">Главная</a>
+        <a href="vibor.html" class="menu-item">Истории</a>
+        <a href="onas.html" class="menu-item">О нас</a>
+    </div>
+</div>
+    <div class="container">
+        <h2>Добро пожаловать!</h2>
+        <p>Наш сайт посвящён книгам в формате переписок. Вдохновение на создание этого проекта пришло после знакомства с приложением "Взахлёб".</p>
+        <p>На данный момент мы представляем только жанр Хоррор, но в ближайшем будущем планируем добавить и другие жанры.</p>
+        <h3>Следите за нами в социальных сетях:</h3>
+        <p>
+            <a href="https://discord.com" target="_blank">Discord</a><br>
+            <a href="https://t.me" target="_blank">Telegram</a><br>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+        </p>
+        <div class="pumpkin"> 
+        <img src="pump.png" alt="Pumpkin Left" class="pumpkin1">
+        <img src="pumpr.png" alt="Pumpkin Right" class="pumpkin2">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Книги переписок</p>
+    </footer>
+    <script>
+    
+        const menuButton = document.getElementById('menu-button');
+        const menu = document.getElementById('menu');
+        let index = 0;
+            let userTurn = false; 
+            menuButton.addEventListener('click', () => {
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            });
+             
+        </script>
+</body>
+</html>
