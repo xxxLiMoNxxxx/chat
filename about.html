@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>О нас</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
             background-color: #121212;
@@ -27,12 +29,22 @@
         }
         .container {
             max-width: 800px;
-            max-height: 350px;
-            margin: 20px auto;
             padding: 20px;
             background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background-image: url('assets/images/pump.png'), url('assets/images/pump.png'); /* Задаем два изображения */
+            background-position: left bottom, right bottom; /* Одно слева, другое справа */
+            background-repeat: no-repeat; /* Отключаем повторение */
+            background-size: 23%;
+        }
+        main {
+            margin-right: 10px !important;
+            margin-left: 10px !important;
+            background-image: url('assets/images/tree.png'), url('assets/images/tree.png'); /* Задаем два изображения */
+            background-position: left center, right center; /* Одно слева, другое справа */
+            background-repeat: no-repeat; /* Отключаем повторение */
+            background-size: 25%;
         }
         footer {
             text-align: center;
@@ -46,21 +58,6 @@
         a:hover {
             text-decoration: underline;
         }
-        .pumpkin2 {
-            width: 250px;
-          margin-top: -140px;
-            transform: scaleX(-1);
-        }
-        .pumpkin1 {
-            width: 250px;
-           margin-right: 400px;
-           margin-top: -140px;
-        }
-        .pumpkin {
-    display: flex; /* Включаем flexbox */
-    justify-content: center; /* Центрируем содержимое */
-    align-items: center; /* Выравнивание по вертикали */
-}
 .menu-button {
             position: absolute;
             top: 20px;
@@ -101,7 +98,7 @@
     </header>
     <main>
         <button class="menu-button" id="menu-button">
-            <img src="assets/images/eye-show-svgrepo-com.svg" alt="Меню" style="width: 100%; height: 100%; border-radius: 50%;">
+            <img src="assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
         </button>
         <div class="menu" id="menu">
             <a href="index.html" class="menu-item">Главная</a>
@@ -118,10 +115,6 @@
                 <a href="https://t.me" target="_blank">Telegram</a><br>
                 <a href="https://instagram.com" target="_blank">Instagram</a>
             </p>
-            <div class="pumpkin">
-                <img src="assets/images/pump.png" alt="Pumpkin Left" class="pumpkin1">
-                <img src="assets/images/pump.png" alt="Pumpkin Right" class="pumpkin2">
-            </div>
         </div>
     </main>
     <footer>

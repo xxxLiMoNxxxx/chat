@@ -70,19 +70,6 @@ a:hover {
         font-size: 0.9em;
     }
 }
-.menu-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-}
 .menu {
     display: none;
     position: absolute;
@@ -108,7 +95,7 @@ a:hover {
 }
 .book img {
     max-height: 120px;
-    max-width: 185px;
+    max-width: 175px;
     border-radius: 10px;
     height: 100%;
     width: auto;
@@ -132,4 +119,29 @@ input {
     height: 24px;
     margin-left: 1px;
     transition: all 0.2s linear;
+}
+.menu-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.menu-button img {
+    margin-top: 4px;
+}
+main {
+    background-image: url('assets/images/tree.png'), url('assets/images/tree.png'); /* Задаем два изображения */
+    background-position: left center, right center; /* Одно слева, другое справа */
+    background-repeat: no-repeat; /* Отключаем повторение */
+    background-size: 25%;
+}
+img {
+    vertical-align: unset !important;
 }
