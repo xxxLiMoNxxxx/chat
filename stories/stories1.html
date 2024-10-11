@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Чат Страшилок</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
          .message.user {
             align-self: flex-end;
@@ -37,6 +38,7 @@
             max-width: 800px;
             height: 90vh;
             display: flex;
+            padding: 0 !important;
             flex-direction: column;
             border-radius: 10px;
             overflow: hidden;
@@ -124,11 +126,6 @@
             color: #fff;
             border-radius: 0 0 10px 10px;
         }
-        .send-icon {
-            width: 24px;
-            height: 24px;
-            margin-left: 1px;
-        }
         .help-button {
             position: absolute;
             top: 20px;
@@ -197,7 +194,10 @@
         <div id="chat"></div>
         <div id="input-container">
             <input type="text" id="input" placeholder="Введите сообщение..." />
-            <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" class="send-icon" />
+            <button class="send-icon" onclick="addMessageOnClick()">
+                <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" width="100%" height="100%" class="icon"/>
+            </button>
+
         </div>
         <button class="help-button" id="help-button">?</button>
         <div class="tooltip" id="tooltip">Чтобы ответить на сообщение Макса, зайдите в поле ввода сообщений и просто нажмите Enter.</div>
