@@ -51,9 +51,8 @@ function addMessage() {
         }
     }
 }
-
-input.addEventListener('keypress', function (event) {
-    if (event.key === 'Enter' && userTurn) {
+function addMessageOnClick() {
+    if (userTurn === true) {
         const userMessage = document.createElement('div');
         userMessage.classList.add('message', 'user');
         userMessage.textContent = messages[index].text;
@@ -70,6 +69,12 @@ input.addEventListener('keypress', function (event) {
         userTurn = false;
         index++;
         setTimeout(displayMessage, 3000);
+    }
+}
+
+input.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter' && userTurn) {
+        addMessageOnClick()
     }
 });
 

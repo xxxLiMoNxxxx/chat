@@ -105,6 +105,30 @@ a:hover {
     background-color: #555;
 }
 .book {
-    text-decoration: none;
+    text-decoration: none !important;
     color: white;
+}
+input {
+    border: none !important;
+    outline: none;
+}
+.send-icon {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 1px;
+    transition: all 0.2s linear;
+}
+.icon:hover {
+    width: 18px;
+    height: 18px;
 }
