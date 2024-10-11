@@ -2,6 +2,16 @@ const chat = document.getElementById('chat');
 const input = document.getElementById('input');
 let index = 0;
 let userTurn = false;
+// const helpButton = document.querySelector('.help-button');
+// const tooltip = document.querySelector('.tooltip');
+//
+// helpButton.addEventListener('mouseover', () => {
+//     tooltip.style.display = 'block';
+// });
+//
+// helpButton.addEventListener('mouseout', () => {
+//     tooltip.style.display = 'none';
+// });
 function displayMessage() {
     if (index < messages.length) {
         if (messages[index].sender === 'max') {

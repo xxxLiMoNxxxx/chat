@@ -1,6 +1,6 @@
 body {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
     font-family: Arial, sans-serif;
     padding: 0;
     margin: 0 auto;
@@ -28,8 +28,6 @@ p {
     position: relative;
 }
 .tree-image {
-    position: absolute;
-    top: 0;
     width: 430px; /* Ширина изображения */
 
 }
@@ -109,11 +107,11 @@ a:hover {
     color: white;
 }
 .book img {
-    max-height: 198px;
-    max-width: 201px;
-    height: auto;
-    width: auto;
+    max-height: 120px;
+    max-width: 185px;
     border-radius: 10px;
+    height: 100%;
+    width: auto;
 }
 input {
     border: none !important;
@@ -134,8 +132,4 @@ input {
     height: 24px;
     margin-left: 1px;
     transition: all 0.2s linear;
-}
-.icon:hover {
-    width: 18px;
-    height: 18px;
 }
