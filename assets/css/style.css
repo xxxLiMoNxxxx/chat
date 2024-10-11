@@ -108,6 +108,13 @@ a:hover {
     text-decoration: none !important;
     color: white;
 }
+.book img {
+    max-height: 198px;
+    max-width: 201px;
+    height: auto;
+    width: auto;
+    border-radius: 10px;
+}
 input {
     border: none !important;
     outline: none;
