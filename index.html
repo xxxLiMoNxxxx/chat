@@ -197,12 +197,12 @@
         <div id="chat"></div>
         <div id="input-container">
             <input type="text" id="input" placeholder="Введите сообщение..." />
-            <img src="images/send_6nw3eojme1pr.svg" alt="Отправить" class="send-icon" />
+            <img src="assets/images/send_6nw3eojme1pr.svg" alt="Отправить" class="send-icon" />
         </div>
         <button class="help-button" id="help-button">?</button>
         <div class="tooltip" id="tooltip">Чтобы ответить на сообщение Макса, зайдите в поле ввода сообщений и просто нажмите Enter.</div>
         <button class="menu-button" id="menu-button">
-            <img src="images/eye-show-svgrepo-com.svg" alt="Меню" style="width: 100%; height: 100%; border-radius: 50%;">
+            <img src="assets/images/eye-show-svgrepo-com.svg" alt="Меню" style="width: 100%; height: 100%; border-radius: 50%;">
         </button>
         <div class="menu" id="menu">
             <a href="glav.html" class="menu-item">Главная</a>
@@ -211,13 +211,8 @@
         </div>
     </div>
     <script>
-        const chat = document.getElementById('chat');
-        const input = document.getElementById('input');
-        const menuButton = document.getElementById('menu-button');
-        const menu = document.getElementById('menu');
-
         const messages =  [
-        { type: 'author', text: 'Чат создан' },
+            { type: 'author', text: 'Чат создан' },
             { type: 'author', text: 'Солнце уже садилось, когда мы с Максом решили снять видео о заброшенном доме на краю города. Говорили, что там происходят странные вещи.' },
             { sender: 'max', text: 'Ты уверен, что это хорошая идея? Мне не нравится это место.', time: '18:32' },
             { sender: 'user', text: 'Да, не переживай! Это будет круто. Мы сделаем классное видео!', time: '18:32' },
@@ -259,85 +254,8 @@
             { sender: 'user', text: 'Не смотрите на неё! Найди что-то, чтобы открыть дверь!', time: '18:58' },
             { type: 'author', text: 'Я начал искать вокруг, но всё, что я нашёл, — это старая игрушка. Вдруг я заметил, что кукла смотрит на меня.' },
         ];
-
-        
-        let index = 0;
-        let userTurn = false; 
-        menuButton.addEventListener('click', () => {
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        });
-        function displayMessage() {
-            if (index < messages.length) {
-                if (messages[index].sender === 'max') {
-                    const typingIndicator = document.createElement('div');
-                    typingIndicator.classList.add('typing');
-                    typingIndicator.innerHTML = 'Макс печатает<span></span><span></span><span></span>';
-                    chat.appendChild(typingIndicator);
-                    chat.scrollTop = chat.scrollHeight;
-
-                    setTimeout(() => {
-                        chat.removeChild(typingIndicator);
-                        addMessage();
-                    }, 2000);
-                } else {
-                    addMessage();
-                }
-            }
-        }
-
-        function addMessage() {
-            const message = document.createElement('div');
-            if (messages[index].type === 'author') {
-                message.classList.add('author');
-            } else {
-                message.classList.add('message', messages[index].sender);
-            }
-            message.textContent = messages[index].text;
-
-            // Добавляем время для сообщений от max и user
-            if (messages[index].time) {
-                const timeElement = document.createElement('div');
-                timeElement.classList.add('time');
-                timeElement.textContent = messages[index].time;
-                message.appendChild(timeElement);
-            }
-
-            chat.appendChild(message);
-            chat.scrollTop = chat.scrollHeight;
-            index++;
-
-            if (index < messages.length && messages[index].sender === 'user') {
-                userTurn = true; 
-            } else {
-                userTurn = false; 
-                if (index < messages.length) {
-                    setTimeout(displayMessage, 3000); 
-                }
-            }
-        }
-
-        input.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter' && userTurn) {
-                const userMessage = document.createElement('div');
-                userMessage.classList.add('message', 'user');
-                userMessage.textContent = messages[index].text;
-
-                // Добавляем время для сообщения пользователя
-                const timeElement = document.createElement('div');
-                timeElement.classList.add('time');
-                timeElement.textContent = messages[index].time;
-                userMessage.appendChild(timeElement);
-
-                chat.appendChild(userMessage);
-                chat.scrollTop = chat.scrollHeight;
-                input.value = ''; 
-                userTurn = false; 
-                index++;
-                setTimeout(displayMessage, 3000); 
-            }
-        });
-
-        displayMessage();
     </script>
+    <script src="assets/js/index.js"></script>
+
 </body>
 </html>
