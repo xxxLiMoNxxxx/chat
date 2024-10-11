@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат Страшилок</title>
+    <style>
+         .message.user {
+            align-self: flex-end;
+            margin-left: auto;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 15px 15px 0 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .message.max {
+            align-self: flex-start;
+            margin-right: auto;
+            background-color: #444;
+            color: #fff;
+            border-radius: 15px 15px 15px 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            width: 800px;
+            max-width: 800px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-color: #333;
+        }
+        #chat {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            display: inline-block;
+        }
+        .author {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .time {
+            font-size: 0.8em;
+            color: #bbb;
+            margin-top: 5px;
+        }
+        .typing {
+            color: #888;
+            text-align: left;
+            align-self: flex-start;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .typing span {
+            display: inline-block;
+            margin-left: 5px;
+            width: 8px;
+            height: 8px;
+            background-color: #888;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+        }
+        .header {
+            background-color: #444;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        #input-container {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #444;
+            background-color: #333;
+            width: 98%;
+        }
+        #input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            border-radius: 0 0 10px 10px;
+        }
+        .send-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 1px;
+        }
+        .help-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        .help-button:hover + .tooltip {
+            display: block;
+        }
+        .menu-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            background-color: #444;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        .menu-item {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        .menu-item:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Крик из прошлого</div>
+        <div id="chat"></div>
+        <div id="input-container">
+            <input type="text" id="input" placeholder="Введите сообщение..." />
+            <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" class="send-icon" />
+        </div>
+        <button class="help-button" id="help-button">?</button>
+        <div class="tooltip" id="tooltip">Чтобы ответить на сообщение Макса, зайдите в поле ввода сообщений и просто нажмите Enter.</div>
+        <button class="menu-button" id="menu-button">
+            <img src="../assets/images/eye-show-svgrepo-com.svg" alt="Меню" style="width: 100%; height: 100%; border-radius: 50%;">
+        </button>
+        <div class="menu" id="menu">
+            <a href="../index.html" class="menu-item">Главная</a>
+            <a href="../switch.html" class="menu-item">Истории</a>
+            <a href="../about.html" class="menu-item">О нас</a>
+        </div>
+    </div>
+    <script>
+        const messages =  [
+            { type: 'author', text: 'Чат создан' },
+            { type: 'author', text: 'Солнце уже садилось, когда мы с Максом решили снять видео о заброшенном доме на краю города. Говорили, что там происходят странные вещи.' },
+            { sender: 'max', text: 'Ты уверен, что это хорошая идея? Мне не нравится это место.', time: '18:32' },
+            { sender: 'user', text: 'Да, не переживай! Это будет круто. Мы сделаем классное видео!', time: '18:32' },
+            { type: 'author', text: 'Мы подошли к дому, и его мрачный вид заставил меня на мгновение остановиться. Ветер завывал, создавая зловещую атмосферу.' },
+            { sender: 'max', text: 'Слушай, тут действительно жутко. Ты слышал, как скрипит дерево?', time: '18:34' },
+            { sender: 'user', text: 'Это всего лишь старый дом. Давай зайдём и начнём снимать!', time: '18:34' },
+            { type: 'author', text: 'Мы толкнули дверь, и она открылась с глухим стуком. Внутри было темно и холодно. Запах плесени и сырости ударил в нос.' },
+            { sender: 'max', text: 'Здесь так тихо... слишком тихо.', time: '18:36' },
+            { sender: 'user', text: 'Пойдём вглубь. Начнём с первого этажа.', time: '18:36' },
+            { type: 'author', text: 'Мы начали снимать, проходя по комнатам. Каждый шаг отзывался эхом в пустоте, и я чувствовал, как холод пробирает до костей.' },
+            { sender: 'max', text: 'Слышишь? Это звук... словно кто-то шепчет.', time: '18:38' },
+            { sender: 'user', text: 'Да, я тоже это слышу. Наверное, ветер.', time: '18:38' },
+            { type: 'author', text: 'Но шёпот становился всё громче, и вскоре мы поняли, что это не просто ветер. Он звучал как будто кто-то зовёт нас.' },
+            { sender: 'max', text: 'Это не может быть правдой. Мы должны уйти.', time: '18:40' },
+            { sender: 'user', text: 'Нет, подожди. Давай проверим, откуда это.', time: '18:40' },
+            { type: 'author', text: 'Мы подошли к старой двери в углу подвала. Она была приоткрыта, и оттуда доносился холодный ветер.' },
+            { sender: 'max', text: 'Я не уверен, что это хорошая идея...', time: '18:42' },
+            { sender: 'user', text: 'Давай, Макс. Это будет отличная сцена для видео!', time: '18:42' },
+            { type: 'author', text: 'Мы толкнули дверь, и она открылась с глухим стуком. Внутри была маленькая комната, заполненная старыми игрушками и фотографиями.' },
+            { sender: 'max', text: 'Смотри, это фотографии детей... Они выглядят такими счастливыми.', time: '18:45' },
+            { sender: 'user', text: 'Но почему они здесь? Это странно.', time: '18:45' },
+            { type: 'author', text: 'Вдруг мы заметили, что одна из игрушек, старая кукла, смотрела прямо на нас. Её глаза казались живыми.' },
+            { sender: 'max', text: 'Это жутко. Я чувствую, что нас кто-то наблюдает.', time: '18:47' },
+            { sender: 'user', text: 'Не паникуй. Это просто старая кукла. Давай снимем это!', time: '18:47' },
+            { type: 'author', text: 'Я начал снимать, но в этот момент мы услышали громкий треск, и дверь за нами захлопнулась. Мы оказались запертыми.' },
+            { sender: 'max', text: 'Что за чертовщина?!', time: '18:50' },
+            { sender: 'user', text: 'Мы должны выбраться отсюда!', time: '18:50' },
+            { type: 'author', text: 'Я подбежал к двери и попытался открыть её, но она не поддавалась. Шёпот становился всё громче, и я понял, что это не просто ветер.' },
+            { sender: 'max', text: 'Я вижу что-то в углу... тень!', time: '18:52' },
+            { sender: 'user', text: 'Где?!', time: '18:52' },
+            { type: 'author', text: 'Я обернулся и увидел тёмную фигуру, медленно приближающуюся к нам. Она была не из этого мира, с искажёнными чертами лица.' },
+            { sender: 'max', text: 'Мы должны бежать!', time: '18:54' },
+            { sender: 'user', text: 'Куда?! Дверь заперта!', time: '18:54' },
+            { type: 'author', text: 'Фигура остановилась и произнесла: "Вы не должны были приходить сюда..."' },
+            { sender: 'max', text: 'Кто ты?!', time: '18:56' },
+            { sender: 'user', text: 'Это всего лишь иллюзия! Мы должны найти выход!', time: '18:56' },
+            { type: 'author', text: 'Но тень лишь усмехнулась и шагнула ближе, а шёпот стал более отчаянным: "Помогите мне..."' },
+            { sender: 'max', text: 'Она хочет нас поймать!', time: '18:58' },
+            { sender: 'user', text: 'Не смотрите на неё! Найди что-то, чтобы открыть дверь!', time: '18:58' },
+            { type: 'author', text: 'Я начал искать вокруг, но всё, что я нашёл, — это старая игрушка. Вдруг я заметил, что кукла смотрит на меня.' },
+        ];
+    </script>
+    <script src="../assets/js/stories.js"></script>
+    <script src="../assets/js/index.js"></script>
+</body>
+</html>
