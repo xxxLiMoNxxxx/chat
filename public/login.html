@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация и Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .toggle-btn {
+            background-color: #007bff;
+        }
+        .toggle-btn:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 id="formTitle">Вход</h2>
+    <form id="authForm">
+        <input type="email" id="email" placeholder="Введите email" required>
+        <input type="password" id="password" placeholder="Введите пароль" required>
+        <p class="error" id="errorMessage"></p>
+        <button type="submit" id="submitBtn">Войти</button>
+        <button type="button" class="toggle-btn" id="toggleForm">Регистрация</button>
+    </form>
+</div>
+
+<script>
+    let isLogin = true;  // Переменная для переключения между авторизацией и регистрацией
+
+    const formTitle = document.getElementById('formTitle');
+    const submitBtn = document.getElementById('submitBtn');
+    const toggleFormBtn = document.getElementById('toggleForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const authForm = document.getElementById('authForm');
+
+    toggleFormBtn.addEventListener('click', () => {
+        isLogin = !isLogin;
+        if (isLogin) {
+            formTitle.innerText = 'Вход';
+            submitBtn.innerText = 'Войти';
+            toggleFormBtn.innerText = 'Регистрация';
+        } else {
+            formTitle.innerText = 'Регистрация';
+            submitBtn.innerText = 'Зарегистрироваться';
+            toggleFormBtn.innerText = 'Вход';
+        }
+    });
+
+    authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        errorMessage.innerText = '';  // Очистить сообщение об ошибке
+
+        if (isLogin) {
+            // Отправить данные для входа
+            login(email, password);
+        } else {
+            // Отправить данные для регистрации
+            register(email, password);
+        }
+    });
+
+    function login(email, password) {
+        // Здесь будет запрос к серверу для входа пользователя
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Успешный вход!');
+                    // Перенаправить на другую страницу
+                    window.location.href = '/index.html';
+                } else {
+                    errorMessage.innerText = data.message || 'Ошибка входа';
+                }
+            })
+            .catch(err => {
+                errorMessage.innerText = 'Ошибка сервера';
+            });
+    }
+
+    function register(email, password) {
+        // Здесь будет запрос к серверу для регистрации пользователя
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Успешная регистрация!');
+                    // Переключиться на форму входа после регистрации
+                    toggleFormBtn.click();
+                } else {
+                    errorMessage.innerText = data.message || 'Ошибка регистрации';
+                }
+            })
+            .catch(err => {
+                errorMessage.innerText = 'Ошибка сервера';
+            });
+    }
+</script>
+</body>
+</html>
