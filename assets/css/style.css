@@ -137,12 +137,6 @@ input {
 .menu-button img {
     margin-top: 4px;
 }
-main {
-    background-image: url('assets/images/tree.png'), url('assets/images/tree.png'); /* Задаем два изображения */
-    background-position: left center, right center; /* Одно слева, другое справа */
-    background-repeat: no-repeat; /* Отключаем повторение */
-    background-size: 25%;
-}
 img {
     vertical-align: unset !important;
 }
