@@ -21,10 +21,10 @@ app.get('/switch', (req, res) => {
     res.sendFile(__dirname + '/public/switch.html');
 });
 app.get('/storie1', (req, res) => {
-    res.sendFile(__dirname + '/public/stories/storie1.html');
+    res.sendFile(__dirname + '/public/stories/stories1.html');
 });
 app.get('/storie2', (req, res) => {
-    res.sendFile(__dirname + '/public/stories/storie1.html');
+    res.sendFile(__dirname + '/public/stories/stories1.html');
 });
 
 // Маршрут для входа
