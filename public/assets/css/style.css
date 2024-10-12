@@ -130,9 +130,7 @@ input {
     border-radius: 50%;
     font-size: 24px;
     cursor: pointer;
-}
-.menu-button img {
-    margin-top: 4px;
+    flex-wrap: wrap;
 }
 img {
     vertical-align: unset !important;
