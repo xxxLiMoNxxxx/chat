@@ -1,9 +1,14 @@
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const port = 3000;
 
-// Временное хранилище пользователей
-const users = [];
+let users = require('./users.json');
+
+// Функция для сохранения данных в файл
+function saveUsersToFile() {
+    fs.writeFileSync('./users.json', JSON.stringify(users, null, 2));
+}
 
 app.use(express.json());
 app.use(express.static('public'));  // Делаем папку 'public' доступной для клиента
@@ -27,7 +32,7 @@ app.get('/storie2', (req, res) => {
     res.sendFile(__dirname + '/public/stories/stories1.html');
 });
 
-// Маршрут для входа
+// Маршрут для логина
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const user = users.find(u => u.email === email && u.password === password);
@@ -46,6 +51,7 @@ app.post('/register', (req, res) => {
         res.json({ success: false, message: 'Пользователь уже существует' });
     } else {
         users.push({ email, password });
+        saveUsersToFile(); // Сохранение данных в файл
         res.json({ success: true });
     }
 });
