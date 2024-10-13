@@ -135,3 +135,8 @@ input {
 img {
     vertical-align: unset !important;
 }
+@media (max-width: 400px) {
+    .name {
+        max-width: 200px;
+    }
+}
