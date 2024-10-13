@@ -48,3 +48,6 @@ input {
         margin-bottom: 24px;
     }
 }
+#avatar {
+    width: 200px;
+}

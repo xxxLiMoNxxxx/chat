@@ -12,6 +12,7 @@
     "nickname": "LiMoN",
     "email": "vladborozdin6131@gmail.com",
     "password": "Test",
-    "avatar": "/assets/images/icon-user.png"
+    "avatar": "/assets/images/icon-user.png",
+    "lastIp": "::1"
   }
 ]
