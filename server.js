@@ -32,6 +32,7 @@ const upload = multer({ storage: storage });
 // Загружаем пользователей из JSON
 let users = require('./users.json');
 
+
 // Функция для сохранения данных в JSON файл
 function saveUsersToFile() {
     fs.writeFileSync('./users.json', JSON.stringify(users, null, 2));
