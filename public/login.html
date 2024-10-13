@@ -23,10 +23,10 @@
     </button>
     <div class="menu" id="menu">
         <a href="/" class="menu-item">Главная</a>
-        <a href="/switch" class="menu-item">Истории</a>
-        <a href="/about" class="menu-item">О нас</a>
+        <a href="/switch.html" class="menu-item">Истории</a>
+        <a href="/about.html" class="menu-item">О нас</a>
     </div>
-    <a href="/login" class="menu-button d-flex justify-content-center align-content-center ">
+    <a href="/login.html" class="menu-button d-flex justify-content-center align-content-center ">
         <img src="assets/images/icon-user.png" alt="Юзер" style="width: 30px; height: 28px; border-radius: 50%;">
     </a>
 </header>
@@ -54,6 +54,39 @@
     const errorMessage = document.getElementById('errorMessage');
     const authForm = document.getElementById('authForm');
 
+    // Проверяем IP при загрузке страницы и токен в localStorage
+    window.onload = function() {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            fetch('/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': token,  // Передача токена для проверки
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Если проверка успешна, перенаправляем на профиль
+                        window.location.href = '/profile.html';
+                    }
+                });
+        } else {
+            // Если нет токена, проверяем IP
+            fetch('/checkIp')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Если IP совпадает, автоматическая авторизация
+                        localStorage.setItem('token', data.token);  // Сохраняем токен
+                        window.location.href = '/profile'; // Перенаправление на страницу профиля
+                    }
+                });
+        }
+    };
+
+    // Переключение между формами
     toggleFormBtn.addEventListener('click', () => {
         isLogin = !isLogin;
         if (isLogin) {
@@ -67,6 +100,7 @@
         }
     });
 
+    // Обработка формы авторизации или регистрации
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -75,16 +109,16 @@
         errorMessage.innerText = '';  // Очистить сообщение об ошибке
 
         if (isLogin) {
-            // Отправить данные для входа
+            // Вход
             login(email, password);
         } else {
-            // Отправить данные для регистрации
+            // Регистрация
             register(email, password);
         }
     });
 
     function login(email, password) {
-        // Здесь будет запрос к серверу для входа пользователя
+        // Запрос к серверу для входа
         fetch('/login', {
             method: 'POST',
             headers: {
@@ -95,9 +129,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Сохранение JWT-токена в localStorage
+                    localStorage.setItem('token', data.token);
                     alert('Успешный вход!');
-                    // Перенаправить на другую страницу
-                    window.location.href = '/index.html';
+                    // Перенаправление на страницу профиля
+                    window.location.href = '/profile.html';
                 } else {
                     errorMessage.innerText = data.message || 'Ошибка входа';
                 }
@@ -108,7 +144,7 @@
     }
 
     function register(email, password) {
-        // Здесь будет запрос к серверу для регистрации пользователя
+        // Запрос к серверу для регистрации
         fetch('/register', {
             method: 'POST',
             headers: {
@@ -119,9 +155,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Сохранение JWT-токена в localStorage
+                    localStorage.setItem('token', data.token);
                     alert('Успешная регистрация!');
-                    // Переключиться на форму входа после регистрации
-                    toggleFormBtn.click();
+                    // Перенаправление на страницу профиля после регистрации
+                    window.location.href = '/profile.html';
                 } else {
                     errorMessage.innerText = data.message || 'Ошибка регистрации';
                 }
@@ -130,6 +168,7 @@
                 errorMessage.innerText = 'Ошибка сервера';
             });
     }
+
 </script>
 <script src="assets/js/index.js"></script>
 </body>

@@ -19,13 +19,11 @@ p {
     margin: 10px 0;
 }
 .container {
-    max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background-color: #1e1e1e;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    position: relative;
 }
 .tree-image {
     width: 430px; /* Ширина изображения */

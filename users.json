@@ -1,6 +1,16 @@
 [
   {
     "email": "vladborozdin613@gmail.com",
-    "password": "Test"
+    "password": "Test",
+    "nickname": "LiMoN",
+    "avatar": "/uploads/1728831712834",
+    "lastIp": "::1"
+  },
+  {
+    "email": "vladborozdin724@gmail.com",
+    "password": "Test",
+    "nickname": "Новый пользователь",
+    "avatar": "/uploads/1728831738417",
+    "lastIp": "::1"
   }
 ]

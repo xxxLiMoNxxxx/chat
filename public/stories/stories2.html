@@ -28,19 +28,14 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            justify-content: center;
-            align-items: center;
             background-color: #1a1a1a;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100% !important;
-            display: flex;
         }
         main {
             height: 85%;
             width: 100%;
-            margin-left: 20px;
-            margin-right: 20px;
         }
         .container {
             max-width: 800px;
@@ -162,17 +157,15 @@
             max-width: 600px;
         }
         .menu-button {
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             background-color: #444;
             color: white;
             border: none;
             border-radius: 50%;
             font-size: 24px;
             cursor: pointer;
-            position: fixed !important;
-            top: unset !important;
-            left: unset !important;
+            flex-wrap: wrap;
         }
         .menu-button img {
             margin-top: 0;
@@ -223,22 +216,29 @@
         @media (max-width: 320px) {
             .help-button:hover::after {
                 bottom: -48px;
-                left: -92px;
+                left: -120px;
                 font-size: 9px;
             }
         }
     </style>
 </head>
 <body>
+<header class="d-flex justify-content-between">
+    <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
+        <img src="/assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
+    </button>
+    <div class="menu" id="menu">
+        <a href="/" class="menu-item">Главная</a>
+        <a href="/switch.html" class="menu-item">Истории</a>
+        <a href="/about.html" class="menu-item">О нас</a>
+    </div>
+    <a href="/login.html" class="menu-button d-flex justify-content-center align-content-center ">
+        <img src="/assets/images/icon-user.png" alt="Юзер" style="width: 30px; height: 28px; border-radius: 50%;">
+    </a>
+</header>
 <main>
     <div class="container">
-
         <div class="header">
-            <div>
-                <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
-                    <img src="../assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
-                </button>
-            </div>
             <div>
                Лес тишины
             </div>
@@ -253,11 +253,6 @@
             <button class="send-icon" onclick="addMessageOnClick()">
                 <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" width="100%" height="100%" class="icon"/>
             </button>
-        </div>
-        <div class="menu" id="menu">
-            <a href="/" class="menu-item">Главная</a>
-            <a href="/switch" class="menu-item">Истории</a>
-            <a href="/about" class="menu-item">О нас</a>
         </div>
     </div>
 </main>
