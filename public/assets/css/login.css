@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    height: 100vh;
+}
+h2 {
+    text-align: center;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 !important;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+#submitBtn, .toggle-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+#submitBtn:hover {
+    background-color: #218838;
+}
+.toggle-btn {
+    background-color: #007bff;
+}
+.toggle-btn:hover {
+    background-color: #0056b3;
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+.login-menu {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+.container {
+    background: none !important;
+    box-shadow: none !important;
+}
