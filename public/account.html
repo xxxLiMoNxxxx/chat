@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/account.css">
+</head>
+<body>
+<header>
+    <h1>Профиль пользователя</h1>
+</header>
+<main>
+    <div id="profileInfo">
+        <!-- Данные профиля будут загружаться сюда -->
+    </div>
+</main>
+
+<script>
+    // Получаем ID пользователя из URL
+    const userId = window.location.pathname.split('/').pop();
+
+    window.onload = function() {
+        fetch(`/profile/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const profileInfo = document.getElementById('profileInfo');
+                    const user = data.user;
+
+                    // Отображаем данные пользователя
+                    profileInfo.innerHTML = `
+                    <img src="${user.avatar}" alt="Аватарка" style="width: 100px; height: 100px; border-radius: 50%;">
+                    <h2>Никнейм: ${user.nickname}</h2>
+                    <p>Email: ${user.email}</p>
+                `;
+                } else {
+                    alert('Пользователь не найден');
+                }
+            })
+            .catch(err => {
+                console.error('Ошибка получения профиля:', err);
+                alert('Ошибка загрузки профиля');
+            });
+    };
+</script>
+
+</body>
+</html>

@@ -6,6 +6,15 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(express.json());
 
+// Устанавливаем EJS как движок для рендеринга
+app.set('view engine', 'ejs');
+
+// Указываем директорию для хранения шаблонов
+app.set('views', path.join(__dirname, 'views'));
+
+// Статические файлы
+app.use(express.static(path.join(__dirname, 'public')));
+
 const secretKey = 'your_secret_key'; // Ключ для подписи JWT
 
 // Настройка для загрузки файлов
@@ -94,51 +103,43 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// Маршрут для логина
+// Маршрут для регистрации
+app.post('/register', (req, res) => {
+    const { nickname, email, password } = req.body;
+
+    // Проверка, существует ли уже пользователь с таким никнеймом или email
+    if (users.find(user => user.nickname === nickname || user.email === email)) {
+        return res.json({ success: false, message: 'Никнейм или email уже заняты' });
+    }
+
+    // Создание нового пользователя
+    const newUser = { id: users.length + 1, nickname, email, password, avatar: '/assets/images/icon-user.png' };
+    users.push(newUser);
+    saveUsersToFile();
+
+    const token = generateToken(newUser);
+    res.json({ success: true, token });
+});
+
+// Маршрут для логина (без изменения, так как никнейм не требуется при входе)
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log(`Попытка входа с email: ${email}, пароль: ${password}`);
     const user = users.find(u => u.email === email && u.password === password);
     const ip = getIpAddress(req);
 
     if (user) {
-        console.log(`Пользователь найден: ${JSON.stringify(user)}`);
         const token = generateToken(user, ip); // Генерируем JWT с IP
         user.lastIp = ip; // Сохраняем последний IP
         saveUsersToFile();
         res.json({ success: true, token });
     } else {
-        console.log(`Пользователь не найден или неверный пароль`);
         res.json({ success: false, message: 'Неверный email или пароль' });
     }
 });
 
 
-// Маршрут для регистрации
-app.post('/register', (req, res) => {
-    const { email, password } = req.body;
-    const user = users.find(u => u.email === email);
-    const ip = getIpAddress(req);
 
-    if (user) {
-        res.json({ success: false, message: 'Пользователь уже существует' });
-    } else {
-        const newUser = {
-            email,
-            password,
-            nickname: 'Новый пользователь',  // Ник по умолчанию
-            avatar: '/assets/images/icon-user.png',  // Аватар по умолчанию
-            lastIp: ip
-        };
-        users.push(newUser);
-        saveUsersToFile();
-        const token = generateToken(newUser, ip); // Генерируем JWT с IP
-        res.json({ success: true, token });
-    }
-});
-
-// Маршрут для профиля (защищённый)
-// Маршрут для профиля (защищённый)
+// Маршрут для профиля текущего пользователя (защищённый, по токену)
 app.get('/profile', authenticateToken, (req, res) => {
     const user = users.find(u => u.email === req.user.email);
     if (user) {
@@ -147,7 +148,23 @@ app.get('/profile', authenticateToken, (req, res) => {
         res.json({ success: false, message: 'Пользователь не найден' });
     }
 });
-// Маршрут для обновления профиля (защищённый)
+
+// Новый маршрут для получения профиля пользователя по ID
+app.get('/account/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    const user = users.find(u => u.id === userId);
+
+    if (user) {
+        // Рендерим HTML с данными пользователя
+        res.render('account', {
+            user: user
+        });
+    } else {
+        res.status(404).send('Пользователь не найден');
+    }
+});
+
+
 // Маршрут для обновления профиля (защищённый)
 app.post('/updateProfile', authenticateToken, (req, res) => {
     const { nickname, email, oldPassword, newPassword } = req.body;

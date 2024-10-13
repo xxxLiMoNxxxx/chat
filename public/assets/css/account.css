@@ -1,0 +1,7 @@
+.profile-menu {
+    max-width: 437px;
+    width: 100% ;
+}
+.container {
+    flex-direction: unset !important;
+}

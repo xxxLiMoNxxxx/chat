@@ -1,16 +1,17 @@
 [
   {
+    "id": 1,
+    "nickname": "LiMoN",
     "email": "vladborozdin613@gmail.com",
     "password": "Test",
-    "nickname": "LiMoN",
-    "avatar": "/uploads/1728831712834",
+    "avatar": "/uploads/1728837652107",
     "lastIp": "::1"
   },
   {
-    "email": "vladborozdin724@gmail.com",
+    "id": 2,
+    "nickname": "LiMoN",
+    "email": "vladborozdin6131@gmail.com",
     "password": "Test",
-    "nickname": "Новый пользователь",
-    "avatar": "/uploads/1728831738417",
-    "lastIp": "::1"
+    "avatar": "/assets/images/icon-user.png"
   }
 ]
