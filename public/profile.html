@@ -217,7 +217,10 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.user.nickname.length > 32) {
+                        alert("Максимум 32 символов в нике!")
+                    }
+                    else if (data.success || data.user.nickname.length < 32) {
                         alert('Профиль обновлен!');
                         user.nickname = data.user.nickname;
                         user.email = data.user.email;
