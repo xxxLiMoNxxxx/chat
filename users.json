@@ -14,5 +14,12 @@
     "password": "Test",
     "avatar": "/assets/images/icon-user.png",
     "lastIp": "::1"
+  },
+  {
+    "id": 3,
+    "nickname": "RedLine",
+    "email": "varya.nova09@gmail.com",
+    "password": "Q777777q",
+    "avatar": "/uploads/1728887535638"
   }
 ]
