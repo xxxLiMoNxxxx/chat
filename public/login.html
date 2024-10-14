@@ -122,7 +122,10 @@
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (nickname.length > 32) {
+                    errorMessage.innerText = data.message || 'Максимум 32 символа в нике';
+                }
+                else if (data.success) {
                     localStorage.setItem('token', data.token);
                     alert('Успешная регистрация!');
                     window.location.href = '/profile.html';

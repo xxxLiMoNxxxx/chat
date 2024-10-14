@@ -14,5 +14,19 @@
     "password": "Test",
     "avatar": "/assets/images/icon-user.png",
     "lastIp": "::1"
+  },
+  {
+    "id": 3,
+    "nickname": "waetraewtyertyayeattrysrtyrty",
+    "email": "vladborozdin613@gmail.com21321",
+    "password": "Test",
+    "avatar": "/assets/images/icon-user.png"
+  },
+  {
+    "id": 4,
+    "nickname": "куфнефукнфеукнфкенкеуцнекнцынкуеегун",
+    "email": "vladborozdin231@gmail.com",
+    "password": "Test",
+    "avatar": "/assets/images/icon-user.png"
   }
 ]
