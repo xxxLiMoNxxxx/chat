@@ -72,10 +72,10 @@
             display: inline-block;
         }
         .author {
-            color: #888;
+            color: #ffffff;
             font-style: italic;
-            text-align: center;
-            margin: 10px 0;
+            text-align: left;
+            margin: 0 0 5px 0; /* Уменьшено расстояние между автором и текстом */
         }
         .time {
             font-size: 0.8em;
@@ -85,10 +85,15 @@
         .typing {
             color: #888;
             text-align: left;
-            align-self: flex-start;
             margin: 10px 0;
             display: flex;
             align-items: center;
+        }
+        .typing.right {
+            justify-content: flex-end; /* Выравнивание вправо */
+        }
+        .typing.left {
+            justify-content: flex-start; /* Выравнивание влево */
         }
         .typing span {
             display: inline-block;
@@ -223,7 +228,7 @@
         @media (max-width: 320px) {
             .help-button:hover::after {
                 bottom: -48px;
-                left: -92px;
+                left: -106px;
                 font-size: 9px;
             }
         }
@@ -237,15 +242,13 @@
             <div>
                 <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
                     <img src="../assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
-                   
                 </button>
             </div>
             <div>
-              В тумане
+                В туманее
             </div>
             <div>
-                <button class="help-button" id="help-button" title="Чтобы ответить на сообщение Макса,
-                нажмите на самолетик">?</button>
+                <button class="help-button" id="help-button" title="Чтобы продолжить, нажмите на самолётик или Enter в поле.">?</button>
             </div>
         </div>
         <div id="chat"></div>
@@ -263,7 +266,7 @@
     </div>
 </main>
 <script>
-   const messages = [
+    const messages =  [
         { sender: "Unknown Number", text: "Помогите мне." },
         { sender: "Unknown Number", text: "Я давал подписку о неразглашении, однако не могу больше молчать." },
         { sender: "Unknown Number", text: "Ниже вы найдёте информацию с нескольких мобильных устройств, подлежавшую уничтожению… и нелегально мной сохранённую." },
@@ -297,127 +300,87 @@
         { sender: "Sofia", text: "За что??" },
         { sender: "Kat", text: "Думаете, мужик нас просто так после закрытия пустил?" },
         { sender: "Sofia", text: "Да мы всего на пару минут опоздали!" },
-        { sender: "Kat", text: "Жизнь несправедлива." },
-        { sender: "Kirill", text: "Скинул." },
-        { sender: "Sofia", text: "Ну, Кать, ну я на мели!.. Я вообще на соревы записалась только ради халявного ски-пасса…" },
-        { sender: "Sofia", text: "Хочешь, я тебе лучше… ну, не знаю… счастливый браслетик на спуск одолжу?" },
-        { sender: "Kat", text: "Тебе нечем подкупить меня, лыжница." },
-        { sender: "Kat", text: "Вот если бы ты каталась на доске, я бы могла взять слитым элементом вместо денег." },
-        { sender: "Anton", text: "Я катаюсь на доске! Я согласен!" },
-        { sender: "Kat", text: "Не знала, что ты катаешь в женском зачёте, милый." },
-        { sender: "Kirill", text: "Антон, Антон." },
-        { sender: "Kirill", text: "У меня от смеха в глазах темнеет." },
-        { sender: "Anton", text: "У меня почему-то тоже в глазах темнеет." },
-        { sender: "Kat", text: "Уж не потому ли, что вырубили освещение?" },
-        { sender: "Sofia", text: "Что случилось?" },
-        { sender: "Sofia", text: "Почему света нет?" },
-        { sender: "Sofia", text: "Почему подъёмник встал?" },
-        { sender: "Sofia", text: "Они что, забыли про нас?" },
-        { sender: "Anton", text: "Женщина, успокойся! Внизу тоже темно." },
-        { sender: "Anton", text: "Хотя не знаю… Может, отсюда не видно." },
-        { sender: "Anton", text: "И мы отрезаны от всего мира." },
-        { sender: "Anton", text: "И никто нам не поможет." },
-        { sender: "Anton", text: "И будем мы ночевать прямо тут, на открытом воздухе, на морозе…" },
-        { sender: "Sofia", text: "Антон!" },
-        { sender: "Kat", text: "Софа, расслабься. Просто авария на подстанции." },
-        { sender: "Kat", text: "Говорю же, ничего страшного." },
-        { sender: "Kat", text: "Сейчас поедем." },
-        { sender: "Sofia", text: "Что-то не едем." },
-        { sender: "Anton", text: "Да подожди ты… Дай мужику глотнуть пива, пересчитать нашу взятку, мечтательно посмотреть в туман за окошко…" },
-        { sender: "Anton", text: "Кстати, откуда взялся туман?" },
-        { sender: "Kirill", text: "Появился, пока света не было." },
-        { sender: "Sofia", text: "А не слишком быстро? Это же от силы минута!" },
-        { sender: "Sofia", text: "И почему мы не двигаемся, если свет дали?" },
-        { sender: "Kat", text: "Спокойно. Я звоню в администрацию." },
-        { sender: "Anton", text: "Спокойно! Она звонит в администрацию!" },
-        { sender: "Anton", text: "И матерится в динамик." },
-        { sender: "Anton", text: "Катя, ты откуда такие слова знаешь?!" },
-        { sender: "Kat", text: "Сейчас тренера наберу." },
-        { sender: "Sofia", text: "Не подходят?.." },
-        { sender: "Anton", text: "Да тренер бухает, по-любому." },
-        { sender: "Anton", text: "Но нет, Кэт так просто не сдаётся… Больше, ещё больше пропущенных ему на телефон!" },
-        { sender: "Kirill", text: "Что там у вас происходит?" },
-        { sender: "Anton", text: "Понимаешь, с Кэт почему-то никто не хочет разговаривать…" },
-        { sender: "Kat", text: "Ребят." },
-        { sender: "Kat", text: "Администрация не отвечает. Тренер не отвечает." },
-        { sender: "Kat", text: "Служба спасения не отвечает." },
-        { sender: "Kat", text: "Так же не должно быть, да?" },
-        { sender: "Sofia", text: "Как это? У них занято?" },
-        { sender: "Kat", text: "Нет, просто длинные гудки и никто не берёт трубку." },
-        { sender: "Kat", text: "И ладно бы связи не было. Или деньги бы на счёту закончились. Или… Ну, вы поняли." },
-        { sender: "Kirill", text: "Необычный сбой. Давай я тоже позвоню." },
-        { sender: "Sofia", text: "Меня, кажется, тошнит…" },
-        { sender: "Kat", text: "Это от нервов. Постарайся успокоиться." },
-        { sender: "Anton", text: "И постарайся не на Кирилла." },
-        { sender: "Sofia", text: "Тупой сноубордист." },
-        { sender: "Anton", text: "Инертная лыжница." },
-        { sender: "Anton", text: "Заметь, я, в отличие от тебя, меняю определения. Может, не такой уж я и тупой?" },
-        { sender: "Kirill", text: "Не берут." },
-        { sender: "Sofia", text: "Не понимаю, как такое возможно?" },
-        { sender: "Anton", text: "Массовый гипноз." },
-        { sender: "Anton", text: "Вторжение инопланетян." },
-        { sender: "Anton", text: "Зомби-апокалипсис." },
-        { sender: "Kirill", text: "Я думаю, это может быть связано с отключением энергии. Что-то замкнуло, и сигнал проходит неправильно." },
-        { sender: "Kat", text: "Мне кажется, это тоже из разряда фантастики." },
-        { sender: "Anton", text: "Нет, это скучная реалистичная хрень." },
-        { sender: "Sofia", text: "Даже если и так, нам-то что делать?" },
-        { sender: "Kirill", text: "Будем звонить, пока кто-то не ответит." },
-        { sender: "Sofia", text: "И долго?" },
-        { sender: "Sofia", text: "Мы же тут окоченеем!" },
-        { sender: "Kat", text: "Правильная мысль. Обмотайтесь шарфами и наденьте перчатки." },
-        { sender: "Kat", text: "И включите голосовой ввод." },
-        { sender: "Sofia", text: "У меня нет шарфа." },
-        { sender: "Kirill", text: "Я поделюсь." },
-        { sender: "Anton", text: "Вы обмотались одним шарфом на двоих?" },
-        { sender: "Anton", text: "Кать, давай тоже!" },
-        { sender: "Kat", text: "Отстань." },
-        { sender: "Anton", text: "Я замёрзну и умру, и это будет твоя вина." },
-        { sender: "Sofia", text: "А давайте не употреблять слова на «з» и на «у»?" },
-        { sender: "Anton", text: "Ты такая унылая лыжница!" },
-        { sender: "Anton", text: "Ой, слово на «у»… Я имею в виду, «унылая»…" },
-        { sender: "Anton", text: "Вот опять. Кто-нибудь, зашейте мне рот." },
-        { sender: "Kirill", text: "Я бы с радостью, да сижу далековато." },
-        { sender: "Kat", text: "Что-то мне всё это не нравится." },
-        { sender: "Sofia", text: "И мне!" },
-        { sender: "Sofia", text: "Туман ещё этот! Помните, был фильм, в котором из тумана лезли монстры?" },
-        { sender: "Kirill", text: "Нет там никаких монстров." },
-        { sender: "Sofia", text: "Откуда ты знаешь? Ничего же не видно!" },
-        { sender: "Sofia", text: "Может быть, они сейчас прямо под нами?" },
-        { sender: "Sofia", text: "А может, лезут по опоре, чтобы быстрее до нас добраться?" },
-        { sender: "Kat", text: "А-а!" },
-        { sender: "Kirill", text: "Кэт!" },
-        { sender: "Kat", text: "Антон, придурок! Этот идиот меня ущипнул!" },
-        { sender: "Anton", text: "Ахаха, смотрите, железная Кэт тоже боится монстров!" },
-        { sender: "Kat", text: "Как же я тебя ненавижу! Ты можешь хоть к чему-то отнестись серьёзно?!" },
-        { sender: "Anton", text: "К чему, к монстрам в тумане?" },
-        { sender: "Anton", text: "Алло, ребята, опомнитесь! Мы застряли на подъёмнике. Ну, не видно ни черта, ну, трубку никто не берёт. Неприятно, да!" },
-        { sender: "Anton", text: "Но самое страшное, что может случиться, — нам придётся провести тут ночь. О, ужас!" },
-        { sender: "Anton", text: "Замёрзнем и проголодаемся! Не выступим на соревах! Кошмар!" },
-        { sender: "Anton", text: "Короче, возьмите себя в руки и не накручивайте." },
-        { sender: "Kirill", text: "Как-то странно это говорить, но Антон прав." },
-        { sender: "Anton", text: "Эй, почему странно?" },
-        { sender: "Kat", text: "Если бы ты меня не ущипнул, я бы и не испугалась." },
-        { sender: "Anton", text: "Ага, конечно. Да на тебя смотреть больно, когда ты делаешь вид, что всё в порядке." },
-        { sender: "Kat", text: "Ладно. Мне было не по себе." },
-        { sender: "Kat", text: "Но теперь я просто злюсь на тебя." },
-        { sender: "Anton", text: "Это норма. Кэт Ещё раз ущипнёшь — убью нафиг." },
-        { sender: "Anton", text: "Слово на «у»! Бан!" },
-        { sender: "Anton", text: "Кстати, лыжница стереотипная, ты там как?" },
-        { sender: "Sofia", text: "Всё нормально. Хотя сидеть здесь целую ночь всё равно такое себе…" },
-        { sender: "Kirill", text: "Всё ещё никто не отвечает. Видимо, серьёзная авария." },
-        { sender: "Kat", text: "Я тут подумала." },
-        { sender: "Kat", text: "Сколько тут до трассы, метров 10 максимум?" },
-        { sender: "Anton", text: "Не знаю, не видно как-то." },
-        { sender: "Kirill", text: "Думаю, 11-12." },
-        { sender: "Kat", text: "Так в чём проблема?" },
-        { sender: "Kat", text: "Давайте я просто прыгну." }
     ];
 
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+    let index = 0;
+    let isTyping = false;
 
+    function showTypingIndicator(isRight) {
+        const typingElement = document.createElement('div');
+        typingElement.classList.add('typing', isRight ? 'right' : 'left');
+        typingElement.innerHTML = 'Пользователь печатает <span>.</span><span>.</span><span>.</span>';
+        chat.appendChild(typingElement);
+        chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
+
+        return typingElement;
+    }
+
+    function removeTypingIndicator(typingElement) {
+        chat.removeChild(typingElement);
+    }
+
+    async function addMessage() {
+        if (index < messages.length) {
+            const message = messages[index];
+            const isRight = (message.sender === "Unknown Number" || message.sender === "Sofia" || message.sender === "Kat");
+
+            const typingElement = showTypingIndicator(isRight);
+            isTyping = true;
+            // Задержка перед отправкой сообщения (например, 2 секунды)
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            removeTypingIndicator(typingElement);
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(isRight ? 'user' : 'max'); // Устанавливаем позицию сообщения
+
+            messageElement.innerHTML = `
+                <div class="author">${message.sender}</div>
+                <span class="text">${message.text}</span>`;
+            chat.appendChild(messageElement);
+            chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
+            index++;
+            isTyping = false;
+        }
+    }
+
+    // Обработчик события нажатия клавиши
+    input.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter' && !isTyping) {
+            addMessage();
+            input.value = ''; // Очистка поля ввода (если нужно)
+            event.preventDefault(); // Предотвращение новой строки в поле ввода
+        }
+    });
+    function addMessageOnClick() {
+        if (userTurn === true) {
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user');
+            userMessage.textContent = messages[index].text;
+
+            // Добавляем время для сообщения пользователя
+            const timeElement = document.createElement('div');
+            timeElement.classList.add('time');
+            timeElement.textContent = messages[index].time;
+            userMessage.appendChild(timeElement);
+
+            chat.appendChild(userMessage);
+            chat.scrollTop = chat.scrollHeight;
+            input.value = '';
+            userTurn = false;
+            index++;
+            setTimeout(displayMessage, 3000);
+        }
+    }
 
 </script>
+
 <script src="../assets/js/stories.js"></script>
 <script src="../assets/js/index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>
