@@ -2,12 +2,13 @@ const chat = document.getElementById('chat');
 const input = document.getElementById('input');
 let index = 0;
 let userTurn = false;
+
 function displayMessage() {
     if (index < messages.length) {
-        if (messages[index].sender === 'max') {
+        if (messages[index].sender === 'sender') {
             const typingIndicator = document.createElement('div');
             typingIndicator.classList.add('typing');
-            typingIndicator.innerHTML = 'Макс печатает<span></span><span></span><span></span>';
+            typingIndicator.innerHTML = `${messages[index].name} печатает<span></span><span></span><span></span>`;
             chat.appendChild(typingIndicator);
             chat.scrollTop = chat.scrollHeight;
 
@@ -23,14 +24,28 @@ function displayMessage() {
 
 function addMessage() {
     const message = document.createElement('div');
+
+    // Определяем класс для сообщения в зависимости от отправителя
     if (messages[index].type === 'author') {
         message.classList.add('author');
     } else {
         message.classList.add('message', messages[index].sender);
     }
-    message.textContent = messages[index].text;
 
-    // Добавляем время для сообщений от max и user
+    // Если тип не author и не user, добавляем имя отправителя перед текстом сообщения
+    if (messages[index].type !== 'author' && messages[index].type !== 'user') {
+        const nameElement = document.createElement('div');
+        nameElement.classList.add('name');
+        nameElement.textContent = messages[index].name + ":";
+        message.appendChild(nameElement);
+    }
+
+    // Добавляем сам текст сообщения
+    const textElement = document.createElement('div');
+    textElement.textContent = messages[index].text;
+    message.appendChild(textElement);
+
+    // Добавляем время сообщения
     if (messages[index].time) {
         const timeElement = document.createElement('div');
         timeElement.classList.add('time');
@@ -51,13 +66,18 @@ function addMessage() {
         }
     }
 }
+
 function addMessageOnClick() {
     if (userTurn === true) {
         const userMessage = document.createElement('div');
         userMessage.classList.add('message', 'user');
-        userMessage.textContent = messages[index].text;
 
-        // Добавляем время для сообщения пользователя
+        // Добавляем текст сообщения
+        const textElement = document.createElement('div');
+        textElement.textContent = messages[index].text;
+        userMessage.appendChild(textElement);
+
+        // Добавляем время сообщения
         const timeElement = document.createElement('div');
         timeElement.classList.add('time');
         timeElement.textContent = messages[index].time;
@@ -74,9 +94,8 @@ function addMessageOnClick() {
 
 input.addEventListener('keypress', function (event) {
     if (event.key === 'Enter' && userTurn) {
-        addMessageOnClick()
+        addMessageOnClick();
     }
 });
 
 displayMessage();
-    

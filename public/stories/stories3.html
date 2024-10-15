@@ -16,7 +16,7 @@
             border-radius: 15px 15px 0 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
-        .message.max {
+        .message.sender {
             align-self: flex-start;
             margin-right: auto;
             background-color: #444;
@@ -28,19 +28,14 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            justify-content: center;
-            align-items: center;
             background-color: #1a1a1a;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100% !important;
-            display: flex;
         }
         main {
             height: 85%;
             width: 100%;
-            margin-left: 20px;
-            margin-right: 20px;
         }
         .container {
             max-width: 800px;
@@ -72,10 +67,10 @@
             display: inline-block;
         }
         .author {
-            color: #ffffff;
+            color: #888;
             font-style: italic;
-            text-align: left;
-            margin: 0 0 5px 0; /* Уменьшено расстояние между автором и текстом */
+            text-align: center;
+            margin: 10px 0;
         }
         .time {
             font-size: 0.8em;
@@ -85,15 +80,10 @@
         .typing {
             color: #888;
             text-align: left;
+            align-self: flex-start;
             margin: 10px 0;
             display: flex;
             align-items: center;
-        }
-        .typing.right {
-            justify-content: flex-end; /* Выравнивание вправо */
-        }
-        .typing.left {
-            justify-content: flex-start; /* Выравнивание влево */
         }
         .typing span {
             display: inline-block;
@@ -167,17 +157,15 @@
             max-width: 600px;
         }
         .menu-button {
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             background-color: #444;
             color: white;
             border: none;
             border-radius: 50%;
             font-size: 24px;
             cursor: pointer;
-            position: fixed !important;
-            top: unset !important;
-            left: unset !important;
+            flex-wrap: wrap;
         }
         .menu-button img {
             margin-top: 0;
@@ -228,27 +216,35 @@
         @media (max-width: 320px) {
             .help-button:hover::after {
                 bottom: -48px;
-                left: -106px;
+                left: -120px;
                 font-size: 9px;
             }
         }
     </style>
 </head>
 <body>
+<header class="d-flex justify-content-between">
+    <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
+        <img src="/assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
+    </button>
+    <div class="menu" id="menu">
+        <a href="/" class="menu-item">Главная</a>
+        <a href="/switch.html" class="menu-item">Истории</a>
+        <a href="/about.html" class="menu-item">О нас</a>
+    </div>
+    <a href="/profile.html" class="menu-button d-flex justify-content-center align-content-center ">
+        <img src="/assets/images/icon-user.png" alt="Юзер" style="width: 30px; height: 28px; border-radius: 50%;">
+    </a>
+</header>
 <main>
     <div class="container">
-
         <div class="header">
             <div>
-                <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
-                    <img src="../assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
-                </button>
+                Крик из прошлого
             </div>
             <div>
-                В туманее
-            </div>
-            <div>
-                <button class="help-button" id="help-button" title="Чтобы продолжить, нажмите на самолётик или Enter в поле.">?</button>
+                <button class="help-button" id="help-button" title="Чтобы ответить на сообщение Макса,
+                    нажмите на самолетик">?</button>
             </div>
         </div>
         <div id="chat"></div>
@@ -258,123 +254,78 @@
                 <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" width="100%" height="100%" class="icon"/>
             </button>
         </div>
-        <div class="menu" id="menu">
-            <a href="/" class="menu-item">Главная</a>
-            <a href="/switch" class="menu-item">Истории</a>
-            <a href="/about" class="menu-item">О нас</a>
-        </div>
     </div>
 </main>
 <script>
-    const messages =  [
-        { sender: "Unknown Number", text: "Помогите мне." },
-        { sender: "Unknown Number", text: "Я давал подписку о неразглашении, однако не могу больше молчать." },
-        { sender: "Unknown Number", text: "Ниже вы найдёте информацию с нескольких мобильных устройств, подлежавшую уничтожению… и нелегально мной сохранённую." },
-        { sender: "Unknown Number", text: "Доля моей вины в случившемся ничтожно мала, и тем не менее, она невыносима." },
-        { sender: "Unknown Number", text: "Прошу вас, ознакомьтесь с этими материалами и помогите открыть миру правду." },
-        { sender: "Anton", text: "Из кодекса райдеров: «…и да не будет твой спуск на соревах первым на неизведанном доселе склоне!.." },
-        { sender: "Anton", text: "Ибо гневаются горы на тех, кто не удосужится нанести им визит вежливости заранее…»" },
-        { sender: "Anton", text: "Поэтому БЫСТРО СЮДА, ЕСЛИ НЕ ХОТИТЕ ИСПЫТАТЬ НА СЕБЕ ИХ ГНЕВ!" },
-        { sender: "Sofia", text: "Мы уже выходим, правда!" },
-        { sender: "Anton", text: "Какого чёрта вы вообще там копаетесь?" },
-        { sender: "Sofia", text: "Кирилл банку забыл." },
-        { sender: "Anton", text: "Какую банку?" },
-        { sender: "Sofia", text: "Банку самогона, разумеется." },
-        { sender: "Sofia", text: "Пауэр бэнк, тупой ты сноубордист! Телефон у него садится." },
-        { sender: "Anton", text: "Безынициативная ты лыжница." },
-        { sender: "Anton", text: "Мне-то откуда знать?" },
-        { sender: "Kat", text: "Мы замёрзли вас ждать. Встретимся наверху." },
-        { sender: "Anton", text: "Если что, пароль: мы тормознутые лыжники, мы всегда опаздываем и на старт завтра тоже опоздаем!" },
-        { sender: "Sofia", text: "Да идём мы, надеваем лыжи – и за вами!" },
-        { sender: "Anton", text: "Только не перепутайте пароль! А не то мужик вас на подъёмник не пропустит!" },
-        { sender: "Kirill", text: "Едем." },
-        { sender: "Anton", text: "Взял свою банку?" },
-        { sender: "Kirill", text: "Банку нет. Внешнее зарядное устройство – да." },
-        { sender: "Anton", text: "Садись, пять." },
-        { sender: "Anton", text: "Между прочим, если человек не может 20 минут обойтись без телефона, это указывает на зависимость…" },
-        { sender: "Sofia", text: "Вы это слышали?" },
-        { sender: "Sofia", text: "Это что, гром?" },
-        { sender: "Anton", text: "О да, это гроза зимой при чистейшем звёздном небе!" },
-        { sender: "Kat", text: "Тут трамплин недалеко строят. Может, там что упало." },
-        { sender: "Kat", text: "Кстати, скиньте мне по 250." },
-        { sender: "Sofia", text: "За что??" },
-        { sender: "Kat", text: "Думаете, мужик нас просто так после закрытия пустил?" },
-        { sender: "Sofia", text: "Да мы всего на пару минут опоздали!" },
+    const messages = [
+        { type: 'author', text: 'Чат создан' },
+        { type: 'author', text: 'Макс и я всегда увлекались городскими легендами. Сначала это были просто детские рассказы про привидений, но с возрастом мы стали искать реальные места, чтобы почувствовать настоящий страх. Мы уже успели побывать в нескольких заброшенных зданиях, но одно из них особенно привлекало наше внимание.' },
+        { sender: 'sender', text: 'Ты серьёзно хочешь пойти в тот дом? Ты же слышал, что там люди пропадают!', time: '17:45' },
+        { sender: 'user', text: 'Вот именно! Это то, что делает его таким интересным! Мы должны снять там видео для нашего канала. Подумай о просмотрах.', time: '17:46' },
+        { sender: 'sender', text: 'Не нравится мне эта идея. Этот дом как будто дышит злом.', time: '17:50' },
+        { sender: 'user', text: 'Чувак, мы уже обсуждали это тысячу раз. Просто представь — тёмные коридоры, заброшенные комнаты... Это будет наш лучший ролик.', time: '17:51' },
+        { type: 'author', text: 'На следующий день мы собрались и отправились к дому. Солнце уже клонилось к закату, когда мы подошли к этому мрачному зданию. Оно возвышалось над нами, как гигантский скелет, застывший во времени.' },
+        { sender: 'sender', text: 'Ты уверен, что это хорошая идея? Мне не нравится это место.', time: '18:32' },
+        { sender: 'user', text: 'Да, не переживай! Это будет круто. Мы сделаем классное видео!', time: '18:32' },
+        { sender: 'sender', text: 'Слушай, тут действительно жутко. Ты слышал, как скрипит дерево?', time: '18:34' },
+        { sender: 'user', text: 'Это всего лишь старый дом. Давай зайдём и начнём снимать!', time: '18:34' },
+        { sender: 'sender', text: 'Здесь так тихо... слишком тихо.', time: '18:36' },
+        { sender: 'user', text: 'Пойдём вглубь. Начнём с первого этажа.', time: '18:36' },
+        { type: 'author', text: 'Мы начали снимать, проходя по комнатам. Каждый шаг отзывался эхом в пустоте, и я чувствовал, как холод пробирает до костей.' },
+        { sender: 'sender', text: 'Слышишь? Это звук... словно кто-то шепчет.', time: '18:38' },
+        { sender: 'user', text: 'Да, я тоже это слышу. Наверное, ветер.', time: '18:38' },
+        { sender: 'sender', text: 'Не похоже на ветер, чувак. Этот шёпот слишком чёткий.', time: '18:40' },
+        { sender: 'user', text: 'В любом случае, давай просто продолжим.', time: '18:41' },
+        { sender: 'sender', text: 'Может, нам не стоило сюда приходить. Это место какое-то проклятое.', time: '18:42' },
+        { sender: 'user', text: 'Макс, давай без паники. Мы просто снимем материал и уйдём.', time: '18:42' },
+        { type: 'author', text: 'Мы подошли к старой двери в углу подвала. Она была приоткрыта, и оттуда доносился холодный ветер. На полу виднелись следы, как будто кто-то недавно прошёл здесь.' },
+        { sender: 'sender', text: 'Кто-то был здесь до нас. Смотри на эти следы.', time: '18:44' },
+        { sender: 'user', text: 'Может, это просто старые следы. Кто-то мог прийти раньше.', time: '18:44' },
+        { sender: 'sender', text: 'Нет, они выглядят свежими... и ведут прямо к той двери.', time: '18:45' },
+        { sender: 'user', text: 'Ты же понимаешь, что это идеальный контент для нашего видео, да?', time: '18:46' },
+        { sender: 'sender', text: 'Не думаю, что я готов это снимать. Мне не нравится, как всё это выглядит.', time: '18:47' },
+        { sender: 'user', text: 'Макс, мы уже здесь. Мы не можем просто так уйти.', time: '18:47' },
+        { sender: 'sender', text: 'Ладно, но если что-то пойдёт не так, мы сразу валим отсюда.', time: '18:48' },
+        { sender: 'user', text: 'Договорились.', time: '18:48' },
+        { type: 'author', text: 'Мы осторожно открыли дверь. За ней оказался узкий, темный коридор, который вёл в глубину дома. Стены были покрыты старыми обоями, местами облезшими и почерневшими от сырости.' },
+        { sender: 'sender', text: 'Не нравится мне этот коридор... Слишком темно.', time: '18:50' },
+        { sender: 'user', text: 'Мы просто пройдёмся немного. Если ничего не найдём, вернёмся обратно.', time: '18:50' },
+        { sender: 'sender', text: 'Только быстро. Я не хочу здесь задерживаться.', time: '18:51' },
+        { sender: 'user', text: 'Давай просто снимем, и мы быстро уйдём.', time: '18:51' },
+        { sender: 'sender', text: 'Слушай... Этот шёпот возвращается.', time: '18:52' },
+        { sender: 'user', text: 'Что за... Ты это слышал? Кажется, он идёт из глубины коридора.', time: '18:52' },
+        { sender: 'sender', text: 'Да, и мне это не нравится. Давай вернёмся.', time: '18:53' },
+        { sender: 'user', text: 'Нет, подожди. Мы должны выяснить, что это.', time: '18:53' },
+        { type: 'author', text: 'Мы продолжили идти по коридору. Шёпот становился всё громче, и мне начало казаться, что он не просто звучит в воздухе — он как будто проникал в мою голову, вызывая чувство беспокойства и страха.' },
+        { sender: 'sender', text: 'Это ненормально. Это место пытается нас напугать.', time: '18:55' },
+        { sender: 'user', text: 'Может, это просто акустика старого дома. Давай не будем паниковать.', time: '18:55' },
+        { sender: 'sender', text: 'Нет, я серьёзно. Это место само по себе живое.', time: '18:56' },
+        { sender: 'user', text: 'Не говори глупостей. Мы должны это закончить.', time: '18:56' },
+        { sender: 'sender', text: 'Ты точно хочешь идти дальше?', time: '18:57' },
+        { sender: 'user', text: 'Мы уже здесь, Макс. Давай просто закончим это.', time: '18:57' },
+        { sender: 'sender', text: 'Ладно... но я буду держать камеру, и если что-то случится — мы уходим.', time: '18:58' },
+        { sender: 'user', text: 'Согласен.', time: '18:58' },
+        { type: 'author', text: 'Мы углубились в коридор. Стены начали сужаться, и ощущение клаустрофобии становилось всё сильнее. Вдруг впереди показалась тёмная фигура. Она стояла неподвижно, словно ожидала нас.' },
+        { sender: 'sender', text: 'Чёрт... Что это такое?!', time: '19:00' },
+        { sender: 'user', text: 'Наверное, кто-то ещё здесь. Может, это охранник?', time: '19:00' },
+        { sender: 'sender', text: 'В таком месте? Сомневаюсь... Это не человек.', time: '19:01' },
+        { sender: 'user', text: 'Оно двигается...', time: '19:01' },
+        { sender: 'sender', text: 'Назад! Быстро, назад!', time: '19:02' },
+        { sender: 'user', text: 'Дверь! Она закрыта!', time: '19:02' },
+        { type: 'author', text: 'Фигура начала двигаться к нам, её шаги были медленными, но неизбежными. Мы с Максом начали в панике метаться по коридору, пытаясь найти выход. Но коридор словно сжимался, стены двигались, как будто дом ожил.' },
+        { sender: 'sender', text: 'Оно приближается! Что нам делать?!', time: '19:03' },
+        { sender: 'user', text: 'Ищи выход! Должен быть другой путь!', time: '19:03' },
+        { type: 'author', text: 'Мы заметили окно в конце коридора. Макс бросился к нему, разбивая стекло, чтобы выбраться наружу. Но в тот момент, когда он попытался пролезть через отверстие, что-то холодное схватило его за ногу.' },
+        { sender: 'sender', text: 'Оно держит меня! Помоги!', time: '19:04' },
+        { sender: 'user', text: 'Держись, я вытащу тебя!', time: '19:05' },
+        { type: 'author', text: 'Я схватил Макса за руки, пытаясь вытянуть его наружу, но невидимая сила тянула его обратно в дом. Мы боролись, чувствуя, как нас обволакивает холодный ужас. Фигура уже была рядом.' },
+        { sender: 'sender', text: 'Я не смогу... оно слишком сильное!', time: '19:06' },
+        { sender: 'user', text: 'Не сдавайся! Мы вырвемся отсюда!', time: '19:07' },
+        { type: 'author', text: 'С трудом, но мне удалось вытащить Макса через окно. Мы упали на землю с другой стороны дома, оба дрожащие и едва дышащие. Дом остался позади, но ощущение его мрачного присутствия не отпускало нас.' },
+        { sender: 'sender', text: 'Мы... мы сделали это.', time: '19:10' },
+        { sender: 'user', text: 'Никогда больше... никогда больше мы не вернёмся туда.', time: '19:11' },
+        { type: 'author', text: 'Мы молча направились к машине, больше не оборачиваясь. Дом остался позади, но его тени навсегда остались в наших сердцах. Это было наше последнее приключение. Теперь мы знали, что не все городские легенды — просто выдумка.' }
     ];
-
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('input');
-    let index = 0;
-    let isTyping = false;
-
-    function showTypingIndicator(isRight) {
-        const typingElement = document.createElement('div');
-        typingElement.classList.add('typing', isRight ? 'right' : 'left');
-        typingElement.innerHTML = 'Пользователь печатает <span>.</span><span>.</span><span>.</span>';
-        chat.appendChild(typingElement);
-        chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
-
-        return typingElement;
-    }
-
-    function removeTypingIndicator(typingElement) {
-        chat.removeChild(typingElement);
-    }
-
-    async function addMessage() {
-        if (index < messages.length) {
-            const message = messages[index];
-            const isRight = (message.sender === "Unknown Number" || message.sender === "Sofia" || message.sender === "Kat");
-
-            const typingElement = showTypingIndicator(isRight);
-            isTyping = true;
-            // Задержка перед отправкой сообщения (например, 2 секунды)
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            removeTypingIndicator(typingElement);
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(isRight ? 'user' : 'max'); // Устанавливаем позицию сообщения
-
-            messageElement.innerHTML = `
-                <div class="author">${message.sender}</div>
-                <span class="text">${message.text}</span>`;
-            chat.appendChild(messageElement);
-            chat.scrollTop = chat.scrollHeight; // Прокрутка вниз
-            index++;
-            isTyping = false;
-        }
-    }
-
-    // Обработчик события нажатия клавиши
-    input.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter' && !isTyping) {
-            addMessage();
-            input.value = ''; // Очистка поля ввода (если нужно)
-            event.preventDefault(); // Предотвращение новой строки в поле ввода
-        }
-    });
-    function addMessageOnClick() {
-        if (userTurn === true) {
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user');
-            userMessage.textContent = messages[index].text;
-
-            // Добавляем время для сообщения пользователя
-            const timeElement = document.createElement('div');
-            timeElement.classList.add('time');
-            timeElement.textContent = messages[index].time;
-            userMessage.appendChild(timeElement);
-
-            chat.appendChild(userMessage);
-            chat.scrollTop = chat.scrollHeight;
-            input.value = '';
-            userTurn = false;
-            index++;
-            setTimeout(displayMessage, 3000);
-        }
-    }
-
 </script>
 
 <script src="../assets/js/stories.js"></script>

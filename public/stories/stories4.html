@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат Страшилок</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/eye.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .message.user {
+            align-self: flex-end;
+            margin-left: auto;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 15px 15px 0 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .message.sender {
+            align-self: flex-start;
+            margin-right: auto;
+            background-color: #444;
+            color: #fff;
+            border-radius: 15px 15px 15px 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100% !important;
+        }
+        main {
+            height: 85%;
+            width: 100%;
+        }
+        .container {
+            max-width: 800px;
+            height: 100%;
+            display: flex;
+            padding: 0 !important;
+            flex-direction: column;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-color: #333;
+            width: 100% !important;
+        }
+        #chat {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+            display: inline-block;
+        }
+        .author {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .time {
+            font-size: 0.8em;
+            color: #bbb;
+            margin-top: 5px;
+        }
+        .typing {
+            color: #888;
+            text-align: left;
+            align-self: flex-start;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .typing span {
+            display: inline-block;
+            margin-left: 5px;
+            width: 8px;
+            height: 8px;
+            background-color: #888;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+        }
+        .header {
+            background-color: #444;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        #input-container {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #444;
+            background-color: #333;
+            width: 98%;
+        }
+        #input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            border-radius: 0 0 10px 10px;
+        }
+        .help-button {
+            position: relative;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+        }
+        .help-button:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: -48px;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            z-index: 1;
+            max-width: 600px;
+        }
+        .menu-button {
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            flex-wrap: wrap;
+        }
+        .menu-button img {
+            margin-top: 0;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            background-color: #444;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        @media (max-width: 850px) {
+            .menu {
+                top: 120px;
+                left: 8px;
+            }
+        }
+        .menu-item {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        .name {
+            font-weight: 600;
+        }
+        .menu-item:hover {
+            background-color: #555;
+        }
+        @media (max-width: 400px) {
+            .header {
+                padding: 15px;
+                font-size: 16px;
+            }
+        }
+        @media (max-width: 550px) {
+            .help-button:hover::after {
+                font-size: 11px;
+                left: -150px;
+            }
+        }
+        @media (max-width: 417px) {
+            .help-button:hover::after {
+                font-size: 10px;
+                left: -120px;
+            }
+        }
+        @media (max-width: 320px) {
+            .help-button:hover::after {
+                bottom: -48px;
+                left: -120px;
+                font-size: 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="d-flex justify-content-between">
+    <button class="menu-button d-flex justify-content-center align-content-center" id="menu-button">
+        <img src="/assets/images/eye-show-svgrepo-com.png" alt="Меню" style="width: 100%; height: 80%; border-radius: 50%;">
+    </button>
+    <div class="menu" id="menu">
+        <a href="/" class="menu-item">Главная</a>
+        <a href="/switch.html" class="menu-item">Истории</a>
+        <a href="/about.html" class="menu-item">О нас</a>
+    </div>
+    <a href="/profile.html" class="menu-button d-flex justify-content-center align-content-center ">
+        <img src="/assets/images/icon-user.png" alt="Юзер" style="width: 30px; height: 28px; border-radius: 50%;">
+    </a>
+</header>
+<main>
+    <div class="container">
+        <div class="header">
+            <div>
+                Крик из прошлого
+            </div>
+            <div>
+                <button class="help-button" id="help-button" title="Чтобы ответить на сообщение Макса,
+                    нажмите на самолетик">?</button>
+            </div>
+        </div>
+        <div id="chat"></div>
+        <div id="input-container">
+            <input type="text" id="input" placeholder="Введите сообщение..." />
+            <button class="send-icon" onclick="addMessageOnClick()">
+                <img src="../assets/images/send_6nw3eojme1pr.svg" alt="Отправить" width="100%" height="100%" class="icon"/>
+            </button>
+        </div>
+    </div>
+</main>
+<script>
+    const messages = [
+        { type: 'author', text: 'Чат создан' },
+        { sender: 'sender', name: 'Семья', text: 'Мы наконец-то переехали в новый город! Как думаешь, как тебе понравится новая школа?', time: '08:15' },
+        { sender: 'user', text: 'Надеюсь, всё будет нормально. Но немного переживаю...', time: '08:20' },
+        { sender: 'sender', name: 'Родитель', text: 'Не волнуйся, это отличная школа, всё будет хорошо.', time: '08:22' },
+        { sender: 'user', text: 'Вот и первый день... Я вхожу в новую школу.', time: '08:30' },
+        { sender: 'sender', name: 'Друг из новой школы', text: 'Привет, ты новенький? Меня зовут Дима.', time: '08:40' },
+        { sender: 'user', text: 'Привет, да, меня зовут Алекс.', time: '08:42' },
+        { sender: 'sender', name: 'Дима', text: 'Если что, спрашивай! Я покажу тебе школу.', time: '08:45' },
+        { sender: 'user', text: 'Спасибо! Школа выглядит огромной, надеюсь, не заблужусь.', time: '08:47' },
+        { sender: 'sender', name: 'Дима', text: 'Слушай, тут на самом деле ходят слухи о странных вещах...', time: '08:50' },
+        { sender: 'user', text: 'Что за слухи?', time: '08:52' },
+        { sender: 'sender', name: 'Дима', text: 'Некоторые ребята говорят, что здесь можно увидеть привидения. Но я в это не верю.', time: '08:55' },
+        { sender: 'user', text: 'Привидения? В наше время?', time: '08:57' },
+        { sender: 'sender', name: 'Дима', text: 'Да, это, конечно, ерунда. Но, говорят, ночью в школе никто не остаётся. Даже охранник.', time: '09:00' },
+        { sender: 'user', text: 'Интересно... Может, стоит проверить?', time: '09:05' },
+        { sender: 'sender', name: 'Дима', text: 'Ты что, серьёзно? Это может быть опасно.', time: '09:07' },
+        { sender: 'user', text: 'Просто ради интереса. Мне нужно лучше узнать эту школу.', time: '09:10' },
+        { sender: 'sender', name: 'Дима', text: 'Ну, если решишься — зови меня.', time: '09:12' },
+        { sender: 'user', text: 'Конечно! Пока пойду на первый урок.', time: '09:15' },
+        { sender: 'sender', name: 'Учитель', text: 'Добро пожаловать в класс, Алекс. Присаживайся на свободное место.', time: '09:30' },
+        { sender: 'user', text: 'Спасибо. Здесь немного странная атмосфера...', time: '09:35' },
+        { sender: 'sender', name: 'Учитель', text: 'Всё в порядке. Это просто новизна.', time: '09:37' },
+        { sender: 'user', text: 'Надеюсь, что так...', time: '09:40' },
+        { type: 'author', text: '*Проходит несколько дней*' },
+        { sender: 'sender', name: 'Дима', text: 'Эй, Алекс! Как твои дела? Уже освоился?', time: '13:00' },
+        { sender: 'user', text: 'Да, вроде бы. Но что-то странное происходит...', time: '13:05' },
+        { sender: 'sender', name: 'Дима', text: 'Что случилось?', time: '13:10' },
+        { sender: 'user', text: 'Вчера вечером, когда я выходил из школы, я видел что-то в окне третьего этажа...', time: '13:15' },
+        { sender: 'sender', name: 'Дима', text: 'Что именно?', time: '13:18' },
+        { sender: 'user', text: 'Как будто силуэт человека. Но я уверен, что там никого не было.', time: '13:20' },
+        { sender: 'sender', name: 'Дима', text: 'Вот это уже интересно. Может, это и есть то самое привидение, о котором все говорят?', time: '13:22' },
+        { sender: 'user', text: 'Не знаю. Может, просто показалось...', time: '13:25' },
+        { type: 'author', text: '*Позже вечером*' },
+        { sender: 'user', text: 'Я решил остаться в школе после уроков, чтобы проверить, что здесь происходит.', time: '18:00' },
+        { sender: 'sender', name: 'Дима', text: 'Ты что, серьёзно? Ты там один?', time: '18:05' },
+        { sender: 'user', text: 'Да, школа пустая. Я иду по коридорам, и тут действительно странно...', time: '18:10' },
+        { sender: 'sender', name: 'Дима', text: 'Будь осторожен! Если что-то увидишь, сразу уходи.', time: '18:12' },
+        { sender: 'user', text: 'Сейчас я поднимаюсь на третий этаж. Слышишь это? Как будто кто-то шепчет...', time: '18:15' },
+        { sender: 'sender', name: 'Дима', text: 'Шепчет? Алекс, не нравится мне это. Уходи оттуда!', time: '18:17' },
+        { sender: 'user', text: 'Нет, я хочу разобраться. О, Боже! Я вижу его! Это привидение!', time: '18:20' },
+        { sender: 'sender', name: 'Дима', text: 'Что ты видишь? Алекс?! Ответь!', time: '18:22' },
+        { sender: 'user', text: 'Это женщина в белом платье... Она идёт ко мне...', time: '18:25' },
+        { sender: 'sender', name: 'Дима', text: 'Уходи оттуда! Немедленно!', time: '18:27' },
+        { sender: 'user', text: 'Я пытаюсь, но ноги как будто не слушаются... Она всё ближе...', time: '18:30' },
+        { sender: 'sender', name: 'Дима', text: 'Алекс! Ты меня слышишь?', time: '18:32' },
+        { sender: 'user', text: 'Да, но мне очень страшно... Она совсем рядом...', time: '18:35' },
+        { sender: 'sender', name: 'Дима', text: 'Беги! Быстрее!', time: '18:37' },
+        { sender: 'user', text: 'Я побежал! Дверь выхода прямо передо мной...', time: '18:40' },
+        { sender: 'sender', name: 'Дима', text: 'Ты сможешь, давай! Алекс?! Ты здесь?', time: '18:42' },
+        { sender: 'user', text: 'Фух, я выбежал! Это было страшно... Я больше туда не пойду.', time: '18:45' },
+        { sender: 'sender', name: 'Дима', text: 'Это было безумие! Я рад, что ты в порядке.', time: '18:47' },
+        { sender: 'user', text: 'Подожди... Она исчезла. Ты думаешь, она что-то хотела нам сказать?', time: '18:50' },
+        { sender: 'sender', name: 'Дима', text: 'Возможно... Но что? Может, ей нужна помощь?', time: '18:52' },
+        { sender: 'user', text: 'Звучит странно, но, может, попробуем узнать? Она не выглядела злой...', time: '18:55' },
+        { sender: 'sender', name: 'Дима', text: 'Тогда завтра после уроков вернёмся туда. Вдвоём точно будет не так страшно.', time: '18:57' },
+        { type: 'author', text: '*На следующий день*' },
+        { sender: 'user', text: 'Мы снова здесь. Школа пуста. Ты готов?', time: '18:10' },
+        { sender: 'sender', name: 'Дима', text: 'Готов... но не уверен, что это хорошая идея.', time: '18:12' },
+        { sender: 'user', text: 'Тихо... Слышишь это? Шёпот...', time: '18:15' },
+        { sender: 'sender', name: 'Дима', text: 'Да, но не вижу никого.', time: '18:17' },
+        { sender: 'user', text: 'Там, в конце коридора! Это снова она!', time: '18:20' },
+        { sender: 'sender', name: 'Дима', text: 'Идёт к нам. Что будем делать?', time: '18:22' },
+        { sender: 'user', text: 'Подожди, кажется, она хочет что-то сказать...', time: '18:25' },
+        { sender: 'sender', name: 'Привидение', text: 'Помогите... Мне страшно... Меня обижают...', time: '18:27' },
+        { sender: 'user', text: 'Кто тебя обижает?', time: '18:30' },
+        { sender: 'sender', name: 'Привидение', text: 'Они... те, кто ходит по этим коридорам... Оставили меня здесь одну.', time: '18:35' },
+        { sender: 'user', text: 'Мы можем помочь! Скажи, что нужно сделать.', time: '18:40' },
+        { sender: 'sender', name: 'Привидение', text: 'Придите завтра... Когда они будут здесь. И расскажите всем...', time: '18:45' },
+        { sender: 'sender', name: 'Дима', text: 'Звучит опасно... Ты уверен?', time: '18:47' },
+        { sender: 'user', text: 'Мы должны помочь. Встретимся завтра.', time: '18:50' },
+        { type: 'author', text: '*На следующий день*' },
+        { sender: 'user', text: 'Весь класс здесь... Ты готов?', time: '13:00' },
+        { sender: 'sender', name: 'Дима', text: 'Готов. Но что, если это ловушка?', time: '13:02' },
+        { sender: 'user', text: 'Надеюсь, нет...', time: '13:05' },
+        { sender: 'sender', name: 'Привидение', text: 'Они... Они здесь...', time: '13:10' },
+        { sender: 'user', text: 'Все смотрят... Мы должны сказать правду.', time: '13:15' },
+        { sender: 'sender', name: 'Дима', text: 'Ребята! В этой школе привидение! Мы должны что-то сделать!', time: '13:20' },
+        { type: 'author', text: '*Все замерли от ужаса*' },
+        { sender: 'sender', name: 'Охотник на приведений', text: 'Мы займёмся этим. Покажите, где вы видели его.', time: '13:30' },
+        { sender: 'user', text: 'Мы видели его на третьем этаже. Следуйте за нами.', time: '13:35' },
+        { sender: 'sender', name: 'Охотник на приведений', text: 'Привидение поймано. Это была долгая ночь.', time: '18:45' },
+        { sender: 'user', text: 'Но почему у меня ощущение, что это ещё не конец?', time: '19:00' },
+        { sender: 'sender', name: 'Дима', text: 'Потому что мы всё равно что-то упустили.', time: '19:10' },
+        { sender: 'user', text: 'Слушай... Там что-то ещё. Мы должны вернуться!', time: '19:20' },
+        { type: 'author', text: '*В конце концов, они решают перевестись, но их родители уговаривают остаться*' }
+    ];
+</script>
+
+<script src="../assets/js/stories.js"></script>
+<script src="../assets/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+</html>
